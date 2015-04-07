@@ -10,8 +10,7 @@
 
 ### About This Project
 
-Adaptive.me IDE based on Jetbrains IntelliJ IDEA Community. This project is used by all Adaptive.me IDE products.
-
+Adaptive.me IDE Products project based on Adaptive.me IDE Base. 
 
 ### About Adaptive Runtime Platform
 
