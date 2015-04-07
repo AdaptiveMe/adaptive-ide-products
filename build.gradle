@@ -1,0 +1,57 @@
+import sun.tools.java.Environment
+
+/*
+ * Copyright 2014-2015. Adaptive.me.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Get a property, if no property with the given name is found return the default
+ */
+binding.setVariable("prop", {String key, String defaultValue = null ->
+    try{
+        return ext[key]
+    }catch (Exception e){
+        if(System.env[key] != null){
+            println "Using environment varible for $key as ${System.env[key]}"
+            ext[key] = System.env[key]
+        }else {
+            println "Setting prop $key with the defaultValue $defaultValue"
+            ext[key] = defaultValue
+        }
+        return ext[key]
+    }
+
+})
+
+/**
+ * Defining the properties that will be used to customize the build for each IDE
+ * branding, common modules, specific modules, etc
+ * They are loaded from a file that is passed with the gradle command eg -PideProperties=codewok.properties
+ */
+
+def props = new Properties()
+file(ideProperties).withInputStream {
+    stream -> props.load(stream)
+}
+props.keySet().each{
+    prop(it,props[it])
+}
+prop("basePath",file("adaptive-ide-base").absolutePath)
+
+/**
+ * Importing the base-ide gradle build file
+ */
+apply from:'adaptive-ide-base/build.gradle'
+
