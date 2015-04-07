@@ -1,15 +1,17 @@
 # AdaptiveMe IDE Products
-[![Build Status](https://travis-ci.org/AdaptiveMe/adaptive-arp-api-lib-java.svg?branch=master)](https://travis-ci.org/AdaptiveMe/adaptive-arp-api-lib-java)
-[![GitHub tag](https://img.shields.io/github/tag/AdaptiveMe/adaptive-arp-api-lib-java.svg)](https://github.com/AdaptiveMe/adaptive-arp-api-lib-java) [![Maven](https://img.shields.io/maven-central/v/me.adaptive/adaptive-arp-lib.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22adaptive-arp-lib%22) 
-[![License](https://img.shields.io/badge/license-apache%202-blue.svg)](https://raw.githubusercontent.com/AdaptiveMe/adaptive-arp-api/master/LICENSE) 
-[![Adaptive Nibble](https://img.shields.io/badge/libs-java-yellow.svg)](https://github.com/AdaptiveMe/adaptive-arp-api-lib-java)  [![adaptive.me](https://img.shields.io/badge/adaptive-me-fdcb0e.svg)](http://adaptive.me)
-[![Adaptive Development Tools](https://raw.githubusercontent.com/AdaptiveMe/AdaptiveMe.github.io/master/assets/logos/normal/Logo-libraries-for-Javafx.png)](#)
+[![Build Status](https://travis-ci.org/AdaptiveMe/adaptive-ide-products.svg?branch=master)](https://travis-ci.org/AdaptiveMe/adaptive-ide-products)
+[![GitHub tag](https://img.shields.io/github/tag/AdaptiveMe/adaptive-ide-products.svg)](https://github.com/AdaptiveMe/adaptive-ide-products) [![License](https://img.shields.io/badge/license-apache%202-blue.svg)](https://raw.githubusercontent.com/AdaptiveMe/adaptive-arp-api/master/LICENSE) 
+[![Adaptive Nibble](https://img.shields.io/badge/ide-base-brightgreen.svg)](https://github.com/AdaptiveMe/adaptive-ide-products)  [![adaptive.me](https://img.shields.io/badge/adaptive-me-fdcb0e.svg)](http://adaptive.me) [![Stories in Ready](https://badge.waffle.io/AdaptiveMe/adaptive-ide-products.svg?label=ready&title=Ready)](http://waffle.io/AdaptiveMe/adaptive-ide-products)
+
+[![Adaptive Tools](https://raw.githubusercontent.com/AdaptiveMe/AdaptiveMe.github.io/master/assets/logos/normal/Logo-adaptive-devtools.png)](#)
+
 
 ## Introduction
 
 ### About This Project
 
-Todo :smile:
+Adaptive.me IDE based on Jetbrains IntelliJ IDEA Community. This project is used by all Adaptive.me IDE products.
+
 
 ### About Adaptive Runtime Platform
 
@@ -21,9 +23,9 @@ Please refer to the [project site](http://adaptiveme.github.io) for more informa
 
 ## Work Backlog
 
-#### Board: [![Stories in Ready](https://badge.waffle.io/AdaptiveMe/adaptive-arp-api-lib-java.svg?label=ready&title=Ready)](https://waffle.io/AdaptiveMe/adaptive-arp-api-lib-java)
+#### Board: [![Stories in Ready](https://badge.waffle.io/AdaptiveMe/adaptive-ide-products.svg?label=ready&title=Ready)](https://waffle.io/AdaptiveMe/adaptive-ide-products)
 
-[![Throughput Graph](https://graphs.waffle.io/AdaptiveMe/adaptive-arp-api-lib-java/throughput.svg)](https://waffle.io/AdaptiveMe/adaptive-arp-api-lib-java/metrics)
+[![Throughput Graph](https://graphs.waffle.io/AdaptiveMe/adaptive-ide-products/throughput.svg)](https://waffle.io/AdaptiveMe/adaptive-ide-products/metrics)
 
 ## Contributing
 
@@ -39,4 +41,3 @@ We'd *love to accept your patches and contributions to this project*.  There are
 All the source code of the Adaptive Runtime Platform (ARP), including all Adaptive Runtime Platform (ARP) sub-projects curated by [Carlos Lozano Diez](https://github.com/carloslozano), are distributed, and must be contributed to, under the terms of the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). The [license](https://raw.githubusercontent.com/AdaptiveMe/adaptive-arp-api/master/LICENSE) is included in this [repository](https://raw.githubusercontent.com/AdaptiveMe/adaptive-arp-api/master/LICENSE).
 
 Forged with :heart: in Barcelona, Catalonia · © 2013 - 2015 [adaptive.me](http://adaptive.me) / [Carlos Lozano Diez](http://google.com/+CarlosLozano).
-
