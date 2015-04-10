@@ -40,6 +40,7 @@ binding.setVariable("prop", {String key, String defaultValue = null ->
  * branding, common modules, specific modules, etc
  * They are loaded from a file that is passed with the gradle command eg -PideProperties=codewok.properties
  */
+prop("ideProperties","codewok.properties")
 
 def props = new Properties()
 file(ideProperties).withInputStream {
