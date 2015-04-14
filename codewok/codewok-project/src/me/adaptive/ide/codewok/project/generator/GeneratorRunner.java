@@ -21,8 +21,6 @@ import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import javafx.application.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +29,24 @@ import java.util.List;
  * Created by panthro on 10/04/15.
  */
 public class GeneratorRunner {
+
+    public enum AdaptiveVersion {
+        LATEST("latest");
+
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        AdaptiveVersion(String name) {
+            this.name = name;
+        }
+    }
 
     public enum Boilerplate{
         HTML5("HTML5 Boilerplate"),
@@ -54,17 +70,16 @@ public class GeneratorRunner {
         }
     }
 
-    public static final String DEFAULT_ADAPTIVE_VERSION = "latest";
     //TODO find a way to discover where the yo binary is, should it be bundled?
     public static final String YEOMAN_LOCATION = "/usr/local/bin/yo";
     public static final String GENERATOR_NAME = "adaptiveme";
 
     private static volatile OSProcessHandler processHandler;
-    private static final Logger LOG = Logger.getInstance("#me.adaptive.ide.codewok.prokect.generator.GeneratorRunner");
+    private static final Logger LOG = Logger.getInstance(GeneratorRunner.class);
 
 
     private String appName;
-    private String adaptiveVersion;
+    private AdaptiveVersion adaptiveVersion;
     private boolean typescriptSupport;
     private Boilerplate boilerplate;
 
@@ -76,7 +91,7 @@ public class GeneratorRunner {
      * @param typescriptSupport
      * @param boilerplate
      */
-    public GeneratorRunner(String appName, String adaptiveVersion, boolean typescriptSupport, Boilerplate boilerplate) {
+    public GeneratorRunner(String appName, AdaptiveVersion adaptiveVersion, boolean typescriptSupport, Boilerplate boilerplate) {
         this.appName = appName;
         this.adaptiveVersion = adaptiveVersion;
         this.typescriptSupport = typescriptSupport;
@@ -88,7 +103,7 @@ public class GeneratorRunner {
      * @param appName
      */
     public GeneratorRunner(String appName) {
-        this(appName,DEFAULT_ADAPTIVE_VERSION,false,Boilerplate.NONE);
+        this(appName,AdaptiveVersion.LATEST,false,Boilerplate.NONE);
     }
 
     public String getAppName() {
@@ -99,11 +114,11 @@ public class GeneratorRunner {
         this.appName = appName;
     }
 
-    public String getAdaptiveVersion() {
+    public AdaptiveVersion getAdaptiveVersion() {
         return adaptiveVersion;
     }
 
-    public void setAdaptiveVersion(String adaptiveVersion) {
+    public void setAdaptiveVersion(AdaptiveVersion adaptiveVersion) {
         this.adaptiveVersion = adaptiveVersion;
     }
 
@@ -127,16 +142,16 @@ public class GeneratorRunner {
         List<String> paramList = new ArrayList<String>();
         paramList.add(GENERATOR_NAME);
         paramList.add(getAppName());
-        paramList.add(getAdaptiveVersion());
+        paramList.add(getAdaptiveVersion().getName().toLowerCase());
         paramList.add(isTypescriptSupport().toString().toLowerCase());
         paramList.add(getBoilerplate().getName());
         return paramList;
     }
 
-    public void generate(final Project project){
-        GeneralCommandLine commandLine = new GeneralCommandLine();
+    public void generate(final String basePath, final Runnable onFinish){
+        final GeneralCommandLine commandLine = new GeneralCommandLine();
         commandLine.setExePath(YEOMAN_LOCATION);
-        commandLine.withWorkDirectory(project.getBasePath());
+        commandLine.withWorkDirectory(basePath);
         commandLine.addParameters(getParametersList());
         commandLine.setRedirectErrorStream(true);
         ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
@@ -146,6 +161,9 @@ public class GeneratorRunner {
                     processHandler = new OSProcessHandler(commandLine.createProcess(), "");
                     processHandler.startNotify();
                     processHandler.waitFor();
+                  if (onFinish != null) {
+                    onFinish.run();
+                  }
                 } catch (ExecutionException e) {
                     LOG.info(e);
                 } finally {
