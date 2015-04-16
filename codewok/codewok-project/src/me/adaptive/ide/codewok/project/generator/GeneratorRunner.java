@@ -19,8 +19,9 @@ package me.adaptive.ide.codewok.project.generator;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.OSProcessHandler;
-import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.Project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,8 +71,7 @@ public class GeneratorRunner {
         }
     }
 
-    //TODO find a way to discover where the yo binary is, should it be bundled?
-    public static final String YEOMAN_LOCATION = "/usr/local/bin/yo";
+    public static final String YEOMAN_COMMAND = "yo";
     public static final String GENERATOR_NAME = "adaptiveme";
 
     private static volatile OSProcessHandler processHandler;
@@ -148,28 +148,41 @@ public class GeneratorRunner {
         return paramList;
     }
 
-    public void generate(final String basePath, final Runnable onFinish){
+    public void generate(Project project) {
+        generate(project, null, null);
+    }
+
+    public void generate(Project project, ConsoleView consoleView) {
+        generate(project, null, consoleView);
+    }
+
+    public void generate(final Project project, final Runnable onFinish, ConsoleView consoleView) {
         final GeneralCommandLine commandLine = new GeneralCommandLine();
-        commandLine.setExePath(YEOMAN_LOCATION);
-        commandLine.withWorkDirectory(basePath);
+        commandLine.setExePath(YEOMAN_COMMAND);
+        commandLine.withWorkDirectory(project.getBasePath());
         commandLine.addParameters(getParametersList());
         commandLine.setRedirectErrorStream(true);
-        ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
-            @Override
-            public void run() {
+        //ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
+        //    @Override
+        //    public void run() {
                 try {
+
                     processHandler = new OSProcessHandler(commandLine.createProcess(), "");
+                    if (consoleView != null) {
+                        consoleView.attachToProcess(processHandler);
+                    }
                     processHandler.startNotify();
                     processHandler.waitFor();
-                  if (onFinish != null) {
-                    onFinish.run();
-                  }
                 } catch (ExecutionException e) {
                     LOG.info(e);
                 } finally {
                     processHandler = null;
+                    if (onFinish != null) {
+                        onFinish.run();
+                    }
                 }
-            }
-        });
+        //}
+        //});
     }
+
 }
