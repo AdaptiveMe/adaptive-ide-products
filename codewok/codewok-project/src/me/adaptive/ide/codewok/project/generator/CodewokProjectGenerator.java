@@ -32,6 +32,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.platform.DirectoryProjectGenerator;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.MessageView;
+import me.adaptive.ide.codewok.bower.BowerCommandExecutor;
+import me.adaptive.ide.codewok.npm.NpmCommandExecutor;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -81,8 +83,9 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
     if (ApplicationManager.getApplication().isDispatchThread()) {
       final ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
       final MessageView messageView = MessageView.SERVICE.getInstance(project);
-      messageView.getContentManager().addContent(ContentFactory.SERVICE.getInstance().createContent(consoleView.getComponent(), "CodeWok Generator", false));
-      ProgressManager.getInstance().run(new Task.Modal(project, "Generating CodeWok project", false) {
+      messageView.getContentManager().addContent(
+              ContentFactory.SERVICE.getInstance().createContent(consoleView.getComponent(), "CodeWok Generator", false));
+      ProgressManager.getInstance().run(new Task.Backgroundable(project, "Generating CodeWok project", false) {
         @Override
         public NotificationInfo getNotificationInfo() {
           return new NotificationInfo("CodeWokGenerator", "CodeWok Project", "Generation Finished");
@@ -91,16 +94,20 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
         @Override
         public void run(@NotNull final ProgressIndicator progressIndicator) {
           progressIndicator.setIndeterminate(true);
-          progressIndicator.setText("Running the generator");
+          progressIndicator.setText("Creating the project files");
           progressIndicator.pushState();
           GeneratorRunner runner = new GeneratorRunner(project.getName(), getAdaptiveVersion(), typescriptSupport, getBoilerplate());
-          runner.generate(project, new Runnable() {
-            @Override
-            public void run() {
-              baseDir.refresh(true, true);
-              progressIndicator.popState();
-            }
-          }, consoleView);
+          runner.setSkipInstall(true);
+          runner.generate(project, consoleView);
+          baseDir.refresh(true, true);
+          progressIndicator.setText("Running NPM install");
+          NpmCommandExecutor npmCommandExecutor = new NpmCommandExecutor(project.getBasePath());
+          processSentToBackground();
+          npmCommandExecutor.runInstall(consoleView);
+          baseDir.refresh(true, true);
+          progressIndicator.setText("Running Bower Install");
+          BowerCommandExecutor bowerCommandExecutor = new BowerCommandExecutor();
+          bowerCommandExecutor.runInstall(project.getBasePath(), consoleView);
         }
       });
 
