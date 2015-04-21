@@ -27,9 +27,11 @@
 
   <actions>
     <!-- Add your actions here -->
-      <action id="codewok.generateProject" icon="AllIcons.Welcome.CreateNewProject" class="me.adaptive.ide.codewok.project.generator.GenerateCodeWokProjectAction" text="New CodeWok Project"
+    <action id="codewok.generateProject" icon="AllIcons.Welcome.CreateNewProject"
+            class="me.adaptive.ide.codewok.actions.GenerateCodeWokProjectAction" text="New CodeWok Project"
               description="Create a new project">
           <add-to-group group-id="WelcomeScreen.QuickStart" anchor="first"/>
+      <add-to-group group-id="FileOpenGroup" anchor="first"></add-to-group>
       </action>
   </actions>
 

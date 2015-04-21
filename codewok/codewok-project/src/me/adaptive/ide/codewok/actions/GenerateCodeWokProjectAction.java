@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package me.adaptive.ide.codewok.project.generator;
+package me.adaptive.ide.codewok.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
@@ -25,6 +24,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.platform.DirectoryProjectGenerator;
 import com.intellij.platform.NewDirectoryProjectAction;
 import com.intellij.util.Function;
+import me.adaptive.ide.codewok.project.generator.CodeWokGenerateProjectDialog;
+import me.adaptive.ide.codewok.project.generator.CodewokProjectGenerator;
 import org.jetbrains.annotations.Nullable;
 
 //import me.adaptive.ide.branding.CodeWokIcons;
