@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/adaptive-ide-base/adaptive-ide-base.iml" filepath="$PROJECT_DIR$/adaptive-ide-base/adaptive-ide-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/adaptive-ide-products.iml" filepath="$PROJECT_DIR$/adaptive-ide-products.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-plugins/adaptive-nibble-plugin/adaptive-nibble-plugin.iml" filepath="$PROJECT_DIR$/common-plugins/adaptive-nibble-plugin/adaptive-nibble-plugin.iml" group="common-plugins" />
       <module fileurl="file://$PROJECT_DIR$/branding/codewok-branding/codewok-branding.iml" filepath="$PROJECT_DIR$/branding/codewok-branding/codewok-branding.iml" group="branding" />
       <module fileurl="file://$PROJECT_DIR$/codewok/codewok-main.iml" filepath="$PROJECT_DIR$/codewok/codewok-main.iml" group="codewok" />
       <module fileurl="file://$PROJECT_DIR$/codewok/codewok-project/codewok-project.iml" filepath="$PROJECT_DIR$/codewok/codewok-project/codewok-project.iml" group="codewok" />
