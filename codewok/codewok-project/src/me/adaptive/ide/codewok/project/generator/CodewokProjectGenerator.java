@@ -98,6 +98,7 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
           progressIndicator.pushState();
           GeneratorRunner runner = new GeneratorRunner(project.getName(), getAdaptiveVersion(), typescriptSupport, getBoilerplate());
           runner.setSkipInstall(true);
+          runner.setSkipServer(true);
           runner.generate(project, consoleView);
           baseDir.refresh(true, true);
           progressIndicator.setText("Running NPM install");
