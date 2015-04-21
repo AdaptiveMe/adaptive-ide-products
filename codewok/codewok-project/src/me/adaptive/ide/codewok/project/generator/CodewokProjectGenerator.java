@@ -22,6 +22,8 @@ import com.intellij.execution.ui.ConsoleView;
 import com.intellij.facet.ui.ValidationResult;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.components.BaseComponent;
+import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -51,6 +53,7 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
   private GeneratorRunner.AdaptiveVersion adaptiveVersion;
   private boolean typescriptSupport;
   private GeneratorRunner.Boilerplate boilerplate;
+  private boolean launchEmulator;
 
   @Nls
   @NotNull
@@ -109,6 +112,12 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
           progressIndicator.setText("Running Bower Install");
           BowerCommandExecutor bowerCommandExecutor = new BowerCommandExecutor();
           bowerCommandExecutor.runInstall(project.getBasePath(), consoleView);
+          if (launchEmulator) {
+            BaseComponent component = project.getComponent("Adaptive Nibble");
+            if (component instanceof ProjectComponent) {
+              ((ProjectComponent) component).projectOpened();
+            }
+          }
         }
       });
 
@@ -152,5 +161,13 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
 
   public void setBoilerplate(GeneratorRunner.Boilerplate boilerplate) {
     this.boilerplate = boilerplate;
+  }
+
+  public boolean isLaunchEmulator() {
+    return launchEmulator;
+  }
+
+  public void setLaunchEmulator(boolean launchEmulator) {
+    this.launchEmulator = launchEmulator;
   }
 }

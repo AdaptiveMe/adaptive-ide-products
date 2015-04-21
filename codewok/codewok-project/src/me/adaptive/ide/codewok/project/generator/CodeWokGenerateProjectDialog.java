@@ -16,7 +16,6 @@
 
 package me.adaptive.ide.codewok.project.generator;
 
-import com.intellij.ide.IdeBundle;
 import com.intellij.ide.impl.ProjectUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -28,7 +27,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 /**
  * Created by panthro on 14/04/15.
@@ -42,6 +40,7 @@ public class CodeWokGenerateProjectDialog extends DialogWrapper {
     private JComboBox adaptiveVersionComboBox;
     private JComboBox boilerPlateTemplateComboBox;
     private JCheckBox typescriptCheckbox;
+    private JCheckBox launchEmulatorCheckbox;
 
 
     public CodeWokGenerateProjectDialog(@Nullable Project project) {
@@ -152,5 +151,9 @@ public class CodeWokGenerateProjectDialog extends DialogWrapper {
 
     public boolean isTypeScriptEnabled(){
         return typescriptCheckbox.isSelected();
+    }
+
+    public boolean shouldLaunchEmulator() {
+        return launchEmulatorCheckbox.isSelected();
     }
 }

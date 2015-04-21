@@ -57,6 +57,7 @@ public class GenerateCodeWokProjectAction extends NewDirectoryProjectAction {
                 generator.setAdaptiveVersion(dialog.getAdaptiveVersion());
                 generator.setTypescriptSupport(dialog.isTypeScriptEnabled());
                 generator.setBoilerplate(dialog.getBoilerplate());
+                generator.setLaunchEmulator(dialog.shouldLaunchEmulator());
                 return doGenerateProject(project,dialog.getProjectLocation(),generator,new Function<VirtualFile, Object>() {
                     @Override
                     public Object fun(VirtualFile file) {
