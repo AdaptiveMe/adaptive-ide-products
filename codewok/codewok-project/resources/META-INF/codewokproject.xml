@@ -16,6 +16,7 @@
 
 <idea-plugin version="2">
 
+
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
     <moduleType id="CODEWOK_MODULE" implementationClass="me.adaptive.ide.codewok.module.CodeWokModuleType"/>
@@ -29,10 +30,9 @@
     <!-- Add your actions here -->
     <action id="codewok.generateProject" icon="AllIcons.Welcome.CreateNewProject"
             class="me.adaptive.ide.codewok.actions.GenerateCodeWokProjectAction" text="New CodeWok Project"
-              description="Create a new project">
-          <add-to-group group-id="WelcomeScreen.QuickStart" anchor="first"/>
+            description="Create a new project">
+      <add-to-group group-id="WelcomeScreen.QuickStart" anchor="first"/>
       <add-to-group group-id="FileOpenGroup" anchor="first"></add-to-group>
-      </action>
+    </action>
   </actions>
-
 </idea-plugin>
