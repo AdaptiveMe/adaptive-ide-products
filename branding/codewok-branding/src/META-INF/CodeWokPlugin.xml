@@ -1,8 +1,6 @@
 <idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude" version="2">
   <xi:include href="/META-INF/PlatformLangXmlPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
   <xi:include href="/META-INF/JsonPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
-  <xi:include href="/META-INF/CodeWokProjectPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
-  <xi:include href="/META-INF/AdaptiveNiblePlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
   <module value="com.intellij.modules.adaptive.codewok"/>
   <application-components>
     <!--<component>-->
