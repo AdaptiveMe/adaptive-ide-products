@@ -24,13 +24,10 @@ import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
-import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.MessageView;
-import me.adaptive.ide.codewok.module.CodeWokModuleType;
-import me.adaptive.ide.codewok.npm.NpmModuleFinder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -145,7 +142,8 @@ public class NibbleComponent extends AbstractProjectComponent {
     }
 
     public boolean isAdaptiveProject() {
-        return ModuleUtil.hasModulesOfType(myProject, CodeWokModuleType.getInstance());
+        return true;
+        //ModuleUtil.hasModulesOfType(myProject, CodeWokModuleType.getInstance());
     }
 
     protected void setupDefaultConsoleView() {

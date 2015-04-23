@@ -15,12 +15,17 @@
   -->
 
 <idea-plugin version="2">
+    <id>me.adaptive.ide.plugins.nibble</id>
+    <name>Adaptive Nibble Plugin</name>
+    <version>1.0</version>
+    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
     <project-components>
         <component>
             <implementation-class>me.adaptive.ide.plugins.nibble.NibbleComponent</implementation-class>
         </component>
     </project-components>
+    <depends>com.intellij.modules.lang</depends>
 
     <actions>
         <action id="RunOnNibble" class="me.adaptive.ide.plugins.nibble.RunOnNibbleAction" text="Launch Emulator"

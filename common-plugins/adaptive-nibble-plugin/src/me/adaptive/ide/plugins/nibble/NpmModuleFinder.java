@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.adaptive.ide.codewok.npm;
+package me.adaptive.ide.plugins.nibble;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
