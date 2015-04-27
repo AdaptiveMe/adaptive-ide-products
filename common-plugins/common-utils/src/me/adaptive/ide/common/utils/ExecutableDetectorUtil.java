@@ -121,7 +121,7 @@ public class ExecutableDetectorUtil {
             if (found != null) {
                 return found;
             } else {
-                found = checkBinDir(new File(pathEntry, "bin"));
+                found = findCommandInDir(new File(pathEntry, "bin").getAbsolutePath());
                 if (found != null) {
                     return found;
                 }
