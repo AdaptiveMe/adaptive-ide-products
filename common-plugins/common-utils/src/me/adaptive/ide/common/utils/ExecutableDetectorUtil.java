@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by RLRA on 27/04/2015.
+ * Created by panthro on 27/04/2015.
  */
 public class ExecutableDetectorUtil {
 
