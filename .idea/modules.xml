@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/branding/codewok-branding/codewok-branding.iml" filepath="$PROJECT_DIR$/branding/codewok-branding/codewok-branding.iml" group="branding" />
       <module fileurl="file://$PROJECT_DIR$/codewok/codewok-main.iml" filepath="$PROJECT_DIR$/codewok/codewok-main.iml" group="codewok" />
       <module fileurl="file://$PROJECT_DIR$/codewok/codewok-project/codewok-project.iml" filepath="$PROJECT_DIR$/codewok/codewok-project/codewok-project.iml" group="codewok" />
+      <module fileurl="file://$PROJECT_DIR$/common-plugins/common-utils/common-utils.iml" filepath="$PROJECT_DIR$/common-plugins/common-utils/common-utils.iml" group="common-plugins" />
     </modules>
   </component>
 </project>

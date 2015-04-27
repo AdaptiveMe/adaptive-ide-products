@@ -25,9 +25,11 @@ import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.MessageView;
+import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -43,7 +45,7 @@ public class NibbleComponent extends AbstractProjectComponent {
     public static final String COMPONENT_NAME = "Adaptive Nibble";
     public static final String NIBBLE_MODULE_NAME = "npm-adaptiveme-nibble";
     public static final String NIBBLE_MODULE_BINARY_LOCATION = "bin" + File.separator + "adaptive-nibble-emulator" + File.separator + "bin";
-    public static final String DEFAULT_INDEX_PATH = "src" + File.separator + "index.html";
+    public static final String DEFAULT_INDEX_PATH = "src/index.html"; //This is used as a VirtualFile, so it needs to use "/"
 
     private static final String WACTHER_PARAM = "-w true";
     //true needs to be passed https://github.com/AdaptiveMe/adaptive-tools-nibble/issues/8
@@ -76,7 +78,11 @@ public class NibbleComponent extends AbstractProjectComponent {
     }
 
 
-    public void runOnNibble(@NotNull VirtualFile file) {
+    public void runOnNibble(@NotNull VirtualFile file){
+        runOnNibble(VfsUtil.virtualToIoFile(file));
+    }
+
+    public void runOnNibble(@NotNull File file) {
         disposeComponent();
 
         VirtualFile nibbleModuleRoot = NpmModuleFinder.findModuleInProject(myProject, NIBBLE_MODULE_NAME);
@@ -85,10 +91,10 @@ public class NibbleComponent extends AbstractProjectComponent {
             commandLine.setExePath(
                     new File(nibbleModuleRoot.getPath(), NIBBLE_MODULE_BINARY_LOCATION + File.separator + MODULE_NIBBLE_COMMAND).getAbsolutePath());
         } else {
-            commandLine.setExePath(GLOBAL_NIBBLE_COMMAND);
+            commandLine.setExePath(new ExecutableDetectorUtil(GLOBAL_NIBBLE_COMMAND).detect());
         }
         //commandLine.withWorkDirectory(myProject.getBasePath());
-        commandLine.addParameters(getParamList(file.getPath()));
+        commandLine.addParameters(getParamList(file.getAbsolutePath()));
 
         try {
             processHandler = new OSProcessHandler(commandLine);
@@ -136,7 +142,7 @@ public class NibbleComponent extends AbstractProjectComponent {
         if (isAdaptiveProject()) {
             File indexHtml = new File(myProject.getBasePath(), DEFAULT_INDEX_PATH);
             if (indexHtml.exists() && !isRunning()) {
-                runOnNibble(myProject.getBaseDir().findFileByRelativePath(DEFAULT_INDEX_PATH));
+                runOnNibble(indexHtml);
             }
         }
     }

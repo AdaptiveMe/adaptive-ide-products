@@ -19,6 +19,7 @@ package me.adaptive.ide.codewok.project.generator;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.project.Project;
 import me.adaptive.ide.codewok.SimpleCommandLineExecutor;
+import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +190,7 @@ public class GeneratorRunner extends SimpleCommandLineExecutor {
 
 
   public void generate(final Project project, ConsoleView consoleView) {
-    runCommand(YEOMAN_COMMAND, project.getBasePath(), getParametersList(),consoleView);
+    runCommand(new ExecutableDetectorUtil(YEOMAN_COMMAND).detect(), project.getBasePath(), getParametersList(), consoleView);
   }
 
 }

@@ -18,6 +18,7 @@ package me.adaptive.ide.codewok.npm;
 
 import com.intellij.execution.ui.ConsoleView;
 import me.adaptive.ide.codewok.SimpleCommandLineExecutor;
+import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,7 +48,7 @@ public class NpmCommandExecutor extends SimpleCommandLineExecutor {
     }
 
     public void runInstall(@Nullable ConsoleView consoleView) {
-        runCommand(NPM_COMMAND, getBasePath(), Arrays.asList(new String[]{INSTALL_COMMAND}), consoleView);
+        runCommand(new ExecutableDetectorUtil(NPM_COMMAND).detect(), getBasePath(), Arrays.asList(new String[]{INSTALL_COMMAND}), consoleView);
     }
 
 }

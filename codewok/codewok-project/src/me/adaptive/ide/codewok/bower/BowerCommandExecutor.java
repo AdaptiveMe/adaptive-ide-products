@@ -18,6 +18,7 @@ package me.adaptive.ide.codewok.bower;
 
 import com.intellij.execution.ui.ConsoleView;
 import me.adaptive.ide.codewok.SimpleCommandLineExecutor;
+import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
 
 import java.util.Arrays;
 
@@ -31,6 +32,6 @@ public class BowerCommandExecutor extends SimpleCommandLineExecutor {
 
 
     public void runInstall(String basePath, ConsoleView consoleView) {
-        runCommand(BOWER_COMMAND, basePath, Arrays.asList(new String[]{INSTALL_COMMAND}), consoleView);
+        runCommand(new ExecutableDetectorUtil(BOWER_COMMAND).detect(), basePath, Arrays.asList(new String[]{INSTALL_COMMAND}), consoleView);
     }
 }
