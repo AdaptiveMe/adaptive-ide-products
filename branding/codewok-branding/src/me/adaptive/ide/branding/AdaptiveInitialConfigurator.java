@@ -19,6 +19,8 @@ package me.adaptive.ide.branding;
 import com.intellij.ide.IdeBundle;
 import com.intellij.ide.ui.LafManager;
 import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
+import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.UIUtil;
@@ -31,12 +33,18 @@ import javax.swing.*;
 public class AdaptiveInitialConfigurator {
 
   public static final String ADAPTIVE_INITIAL_CONFIG_V1 = "Adaptive.InitialConfiguration.V1";
+  public static final String ADAPTIVE_INITIAL_CONFIG_V2 = "Adaptive.InitialConfiguration.V2";
 
 
   public AdaptiveInitialConfigurator(MessageBus bus, final PropertiesComponent propertiesComponent, final FileTypeManager fileTypeManager) {
     if (!propertiesComponent.getBoolean(ADAPTIVE_INITIAL_CONFIG_V1, false)) {
       setLafToDarcula();
       propertiesComponent.setValue(ADAPTIVE_INITIAL_CONFIG_V1, "true");
+    }
+
+    if (!propertiesComponent.getBoolean(ADAPTIVE_INITIAL_CONFIG_V2, false)) {
+      setEditorThemeToDarcula();
+      propertiesComponent.setValue(ADAPTIVE_INITIAL_CONFIG_V2, "true");
     }
   }
 
@@ -52,6 +60,16 @@ public class AdaptiveInitialConfigurator {
           lafManager.updateUI();
           lafManager.repaintUI();
         }
+      }
+    }
+  }
+
+  public void setEditorThemeToDarcula(){
+    EditorColorsManager editorColorsManager = EditorColorsManager.getInstance();
+    if(!IdeBundle.message("idea.dark.look.and.feel").equals(editorColorsManager.getGlobalScheme().getName())){
+      EditorColorsScheme darculaEditorScheme = editorColorsManager.getScheme(IdeBundle.message("idea.dark.look.and.feel"));
+      if(null != darculaEditorScheme ){
+        editorColorsManager.setGlobalScheme(darculaEditorScheme);
       }
     }
   }
