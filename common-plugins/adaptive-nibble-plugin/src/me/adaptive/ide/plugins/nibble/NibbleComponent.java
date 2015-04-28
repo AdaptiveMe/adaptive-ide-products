@@ -158,11 +158,16 @@ public class NibbleComponent extends AbstractProjectComponent {
         }
         consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(myProject).getConsole();
         final MessageView messageView = MessageView.SERVICE.getInstance(myProject);
-        messageView.runWhenInitialized(new Runnable() {
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
             @Override
             public void run() {
-                messageView.getContentManager().addContent(ContentFactory.SERVICE.getInstance().createContent(consoleView.getComponent(), COMPONENT_NAME, false));
-                consoleView.attachToProcess(processHandler);
+                messageView.runWhenInitialized(new Runnable() {
+                    @Override
+                    public void run() {
+                        messageView.getContentManager().addContent(ContentFactory.SERVICE.getInstance().createContent(consoleView.getComponent(), COMPONENT_NAME, false));
+                        consoleView.attachToProcess(processHandler);
+                    }
+                });
             }
         });
     }
