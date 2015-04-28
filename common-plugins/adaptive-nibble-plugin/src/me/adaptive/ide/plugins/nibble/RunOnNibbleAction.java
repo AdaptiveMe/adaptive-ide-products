@@ -49,7 +49,7 @@ public class RunOnNibbleAction extends AnAction implements DumbAware {
         Do not show the action in the following cases
         Not in an editor AND no file selected OR editor is empty
          */
-        if ((editor == null && file == null) || (editor != null && editor.getDocument().getTextLength() == 0)) {
+        if ((editor == null || file == null) || (editor != null && editor.getDocument().getTextLength() == 0)) {
             e.getPresentation().setVisible(false);
             e.getPresentation().setEnabled(false);
             return;
