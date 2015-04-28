@@ -131,6 +131,9 @@ public class ExecutableDetectorUtil {
     }
 
     private String findCommandInDir(String dir) {
+        if (!new File(dir).exists()) {
+            return null;
+        }
         for (File file : new File(dir).listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
