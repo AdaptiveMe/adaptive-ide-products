@@ -31,7 +31,11 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowId;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.platform.DirectoryProjectGenerator;
+import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.MessageView;
 import me.adaptive.ide.codewok.bower.BowerCommandExecutor;
@@ -86,8 +90,21 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
     if (ApplicationManager.getApplication().isDispatchThread()) {
       final ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
       final MessageView messageView = MessageView.SERVICE.getInstance(project);
-      messageView.getContentManager().addContent(
-              ContentFactory.SERVICE.getInstance().createContent(consoleView.getComponent(), "CodeWok Generator", false));
+      messageView.runWhenInitialized(new Runnable() {
+        @Override
+        public void run() {
+          Content messageContent = ContentFactory.SERVICE.getInstance().createContent(consoleView.getComponent(), "CodeWok Generator",
+                  false);
+          messageView.getContentManager().addContent(messageContent);
+          messageView.getContentManager().requestFocus(messageContent, true);
+          ToolWindow messageToolWindow = ToolWindowManager.getInstance(project).getToolWindow(ToolWindowId.MESSAGES_WINDOW);
+          if (!messageToolWindow.isActive() || !messageToolWindow.isVisible()) {
+            messageToolWindow.activate(null, true);
+          }
+
+        }
+      });
+
       ProgressManager.getInstance().run(new Task.Backgroundable(project, "Generating CodeWok project", false) {
         @Override
         public NotificationInfo getNotificationInfo() {
