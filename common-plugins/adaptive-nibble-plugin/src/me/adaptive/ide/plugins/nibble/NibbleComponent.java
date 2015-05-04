@@ -22,11 +22,14 @@ import com.intellij.execution.filters.TextConsoleBuilderFactory;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.ui.ConsoleView;
+import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.tools.Tool;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.MessageView;
 import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
@@ -78,21 +81,62 @@ public class NibbleComponent extends AbstractProjectComponent {
     }
 
 
-    public void runOnNibble(@NotNull VirtualFile file){
-        runOnNibble(VfsUtil.virtualToIoFile(file));
+    public void runOnNibbleOnRunToolWindow(@NotNull VirtualFile file) {
+        runOnNibbleOnRunToolWindow(VfsUtil.virtualToIoFile(file));
     }
 
+    /**
+     * Runs nibble inside the Run tool window, where the user can stop or kill the process at any time.
+     *
+     * @param file
+     */
+    public void runOnNibbleOnRunToolWindow(@NotNull File file) {
+        final Tool nibbleTool = new Tool() {
+            @Override
+            public boolean isUseConsole() {
+                return true;
+            }
+
+            @Override
+            public String getName() {
+                return COMPONENT_NAME;
+            }
+        };
+
+        nibbleTool.setParameters(StringUtil.join(getParamList(file.getAbsolutePath()), " "));
+        nibbleTool.setProgram(getNibbleExecutablePath());
+
+        nibbleTool.setWorkingDirectory(myProject.getBasePath());
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                nibbleTool.execute(null, SimpleDataContext.getProjectContext(myProject), COMPONENT_NAME.hashCode(), null);
+            }
+        });
+    }
+
+    protected String getNibbleExecutablePath(){
+        VirtualFile nibbleModuleRoot = NpmModuleFinder.findModuleInProject(myProject, NIBBLE_MODULE_NAME);
+        String exePath;
+        if (nibbleModuleRoot != null) {
+            exePath = new File(nibbleModuleRoot.getPath(), NIBBLE_MODULE_BINARY_LOCATION + File.separator + MODULE_NIBBLE_COMMAND).getAbsolutePath();
+        } else {
+            exePath = new ExecutableDetectorUtil(GLOBAL_NIBBLE_COMMAND).detect();
+        }
+        return exePath;
+    }
+
+    /**
+     * Runs nibble as a sepparate program and attach the output to the Messages tool window
+     *
+     * @param file
+     * @see #runOnNibbleOnRunToolWindow(VirtualFile) if you want the user to have control over the process
+     */
     public void runOnNibble(@NotNull File file) {
         disposeComponent();
 
-        VirtualFile nibbleModuleRoot = NpmModuleFinder.findModuleInProject(myProject, NIBBLE_MODULE_NAME);
         commandLine = new GeneralCommandLine();
-        if (nibbleModuleRoot != null) {
-            commandLine.setExePath(
-                    new File(nibbleModuleRoot.getPath(), NIBBLE_MODULE_BINARY_LOCATION + File.separator + MODULE_NIBBLE_COMMAND).getAbsolutePath());
-        } else {
-            commandLine.setExePath(new ExecutableDetectorUtil(GLOBAL_NIBBLE_COMMAND).detect());
-        }
+        commandLine.setExePath(getNibbleExecutablePath());
         //commandLine.withWorkDirectory(myProject.getBasePath());
         commandLine.addParameters(getParamList(file.getAbsolutePath()));
 
@@ -142,7 +186,7 @@ public class NibbleComponent extends AbstractProjectComponent {
         if (isAdaptiveProject()) {
             File indexHtml = new File(myProject.getBasePath(), DEFAULT_INDEX_PATH);
             if (indexHtml.exists() && !isRunning()) {
-                runOnNibble(indexHtml);
+                runOnNibbleOnRunToolWindow(indexHtml);
             }
         }
     }

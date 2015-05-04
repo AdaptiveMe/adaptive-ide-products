@@ -85,7 +85,8 @@ public class RunOnNibbleAction extends AnAction implements DumbAware {
         new Task.Backgroundable(project, "Launching Nibble") {
             @Override
             public void run(ProgressIndicator indicator) {
-                component.runOnNibble(file);
+                //component.runOnNibble(file);
+                component.runOnNibbleOnRunToolWindow(file);
             }
         }.queue();
 
