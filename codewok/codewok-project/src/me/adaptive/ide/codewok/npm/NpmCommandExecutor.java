@@ -31,6 +31,9 @@ public class NpmCommandExecutor extends SimpleCommandLineExecutor {
 
     public static final String NPM_COMMAND = "npm";
     public static final String INSTALL_COMMAND = "install";
+    public static final String UPDATE_COMMAND = "update";
+
+    public static final String[] AVAILABLE_COMMANDS = new String[]{INSTALL_COMMAND, UPDATE_COMMAND};
 
 
     private String basePath;
@@ -48,7 +51,15 @@ public class NpmCommandExecutor extends SimpleCommandLineExecutor {
     }
 
     public void runInstall(@Nullable ConsoleView consoleView) {
-        runCommand(new ExecutableDetectorUtil(NPM_COMMAND).detect(), getBasePath(), Arrays.asList(new String[]{INSTALL_COMMAND}), consoleView);
+        runCommand(INSTALL_COMMAND, consoleView);
+    }
+
+    public void runUpdate(@Nullable ConsoleView consoleView) {
+        runCommand(UPDATE_COMMAND, consoleView);
+    }
+
+    public void runCommand(String command, @Nullable ConsoleView consoleView) {
+        runCommand(new ExecutableDetectorUtil(NPM_COMMAND).detect(), getBasePath(), Arrays.asList(new String[]{command}), consoleView);
     }
 
 }

@@ -28,11 +28,17 @@
 
   <actions>
     <!-- Add your actions here -->
-    <action id="codewok.generateProject" icon="AllIcons.Welcome.CreateNewProject"
-            class="me.adaptive.ide.codewok.actions.GenerateCodeWokProjectAction" text="New CodeWok Project"
-            description="Create a new project">
+    <group id="WelcomeScreen.Platform.NewProject">
+      <action id="codewok.generateProject" icon="AllIcons.Welcome.CreateNewProject"
+              class="me.adaptive.ide.codewok.actions.GenerateCodeWokProjectAction" text="New CodeWok Project"
+              description="Create a new project"/>
       <add-to-group group-id="WelcomeScreen.QuickStart" anchor="first"/>
       <add-to-group group-id="FileOpenGroup" anchor="first"></add-to-group>
-    </action>
+    </group>
+    <group id="Npm.RunCommand" icon="AllIcons.Json.Object"
+           class="me.adaptive.ide.codewok.actions.NpmRunCommandActionGroup" text="Run Npm Command" popup="true">
+      <add-to-group group-id="ProjectViewPopupMenu"/>
+      <add-to-group group-id="ToolsMenu"/>
+    </group>
   </actions>
 </idea-plugin>
