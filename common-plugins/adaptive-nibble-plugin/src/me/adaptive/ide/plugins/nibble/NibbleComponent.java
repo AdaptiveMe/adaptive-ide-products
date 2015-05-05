@@ -18,7 +18,6 @@ package me.adaptive.ide.plugins.nibble;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.filters.TextConsoleBuilderFactory;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.ui.ConsoleView;
@@ -30,8 +29,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.tools.Tool;
-import com.intellij.ui.content.ContentFactory;
-import com.intellij.ui.content.MessageView;
+import me.adaptive.ide.common.utils.ConsoleViewUtil;
 import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -143,7 +141,7 @@ public class NibbleComponent extends AbstractProjectComponent {
         try {
             processHandler = new OSProcessHandler(commandLine);
             if (consoleView == null) {
-                setupDefaultConsoleView();
+                consoleView = ConsoleViewUtil.registerConsoleView(myProject, COMPONENT_NAME, true);
             } else {
                 consoleView.attachToProcess(processHandler);
             }
@@ -194,25 +192,5 @@ public class NibbleComponent extends AbstractProjectComponent {
     public boolean isAdaptiveProject() {
         return true;
         //ModuleUtil.hasModulesOfType(myProject, CodeWokModuleType.getInstance());
-    }
-
-    protected void setupDefaultConsoleView() {
-        if (consoleView != null) {
-            return;
-        }
-        consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(myProject).getConsole();
-        final MessageView messageView = MessageView.SERVICE.getInstance(myProject);
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                messageView.runWhenInitialized(new Runnable() {
-                    @Override
-                    public void run() {
-                        messageView.getContentManager().addContent(ContentFactory.SERVICE.getInstance().createContent(consoleView.getComponent(), COMPONENT_NAME, false));
-                        consoleView.attachToProcess(processHandler);
-                    }
-                });
-            }
-        });
     }
 }

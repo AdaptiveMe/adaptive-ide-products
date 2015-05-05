@@ -86,7 +86,7 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
   public void generateProject(@NotNull final Project project,
                               @NotNull final VirtualFile baseDir,
                               @Nullable Object settings,
-                              @NotNull Module module) {
+                              @NotNull final Module module) {
     if (ApplicationManager.getApplication().isDispatchThread()) {
       final ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
       final MessageView messageView = MessageView.SERVICE.getInstance(project);
@@ -120,7 +120,6 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
           runner.setSkipInstall(true);
           runner.setSkipServer(true);
           runner.generate(project, consoleView);
-          baseDir.refresh(true, true);
           progressIndicator.setText("Running NPM install");
           NpmCommandExecutor npmCommandExecutor = new NpmCommandExecutor(project.getBasePath());
           processSentToBackground();
@@ -137,8 +136,6 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
           }
         }
       });
-
-
     }
   }
 

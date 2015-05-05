@@ -23,6 +23,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.tools.SimpleActionGroup;
 import me.adaptive.ide.codewok.npm.NpmCommandExecutor;
+import me.adaptive.ide.icons.AdaptiveIcons;
 
 /**
  * Created by panthro on 4/05/15.
@@ -42,6 +43,9 @@ public class NpmRunCommandActionGroup extends SimpleActionGroup implements DumbA
 
     @Override
     public void update(AnActionEvent e) {
+        if (e.getPresentation().getIcon() == null) {
+            e.getPresentation().setIcon(AdaptiveIcons.NodeJs);
+        }
         Project project = e.getData(CommonDataKeys.PROJECT);
         if (project == null || project.isDefault()) { //If we are not inside a project, shouldn't be able to run it
             e.getPresentation().setVisible(false);
@@ -72,6 +76,5 @@ public class NpmRunCommandActionGroup extends SimpleActionGroup implements DumbA
         e.getPresentation().setVisible(true);
         e.getPresentation().setEnabled(true);
     }
-
 
 }
