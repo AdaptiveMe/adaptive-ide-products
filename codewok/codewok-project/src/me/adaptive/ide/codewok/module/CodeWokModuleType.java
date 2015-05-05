@@ -16,10 +16,11 @@
 
 package me.adaptive.ide.codewok.module;
 
+import com.intellij.ide.util.frameworkSupport.FrameworkRole;
 import com.intellij.ide.util.projectWizard.EmptyModuleBuilder;
-import com.intellij.ide.util.projectWizard.ModuleBuilder;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleTypeManager;
+import me.adaptive.ide.branding.CodeWokIcons;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,11 +67,17 @@ public class CodeWokModuleType extends ModuleType<EmptyModuleBuilder> {
 
   @Override
   public Icon getBigIcon() {
-    return null; //TODO add icon
+    return CodeWokIcons.CodeWok_32; //TODO add icon
   }
 
   @Override
   public Icon getNodeIcon(@Deprecated boolean isOpened) {
-    return null;//TODO add icon
+    return CodeWokIcons.CodeWok_16;//TODO add icon
+  }
+
+  @NotNull
+  @Override
+  public FrameworkRole getDefaultAcceptableRole() {
+    return super.getDefaultAcceptableRole();
   }
 }
