@@ -28,5 +28,7 @@ public class CodeWokIcons {
         return IconLoader.getIcon(path,CodeWokIcons.class);
     }
 
-    public static final Icon CodeWok = load("artwork/Icon_Small.png");
+    public static final Icon CodeWok_16 = load("/artwork/Icon_Small.png");
+
+    public static final Icon CodeWok_32 = load("/artwork/Icon.png");
 }

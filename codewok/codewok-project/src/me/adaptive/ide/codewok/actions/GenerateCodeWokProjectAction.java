@@ -21,11 +21,14 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.wm.impl.welcomeScreen.NewWelcomeScreen;
 import com.intellij.platform.DirectoryProjectGenerator;
 import com.intellij.platform.NewDirectoryProjectAction;
 import com.intellij.util.Function;
+import me.adaptive.ide.branding.CodeWokIcons;
 import me.adaptive.ide.codewok.project.generator.CodeWokGenerateProjectDialog;
 import me.adaptive.ide.codewok.project.generator.CodewokProjectGenerator;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 //import me.adaptive.ide.branding.CodeWokIcons;
@@ -70,15 +73,12 @@ public class GenerateCodeWokProjectAction extends NewDirectoryProjectAction {
         return project;
     }
 
-    //@Override
-    //public void update(@NotNull AnActionEvent e) {
-    //    if (NewWelcomeScreen.isNewWelcomeScreen(e)) {
-    //        try {
-    //            e.getPresentation().setIcon(CodeWokIcons.CodeWok);
-    //        } catch (NoClassDefFoundError ex) {
-    //            LOG.info("CodeWokIcons class not found");
-    //            e.getPresentation().setIcon(AllIcons.Welcome.CreateNewProject);
-    //        }
-    //    }
-    //}
+    @Override
+    public void update(@NotNull AnActionEvent e) {
+        if (!NewWelcomeScreen.isNewWelcomeScreen(e)) {
+            e.getPresentation().setIcon(CodeWokIcons.CodeWok_16);
+        } else {
+            e.getPresentation().setIcon(CodeWokIcons.CodeWok_32);
+        }
+    }
 }
