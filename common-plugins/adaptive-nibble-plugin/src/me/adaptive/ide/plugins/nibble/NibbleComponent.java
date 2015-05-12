@@ -31,6 +31,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.tools.Tool;
 import me.adaptive.ide.common.utils.ConsoleViewUtil;
 import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
+import me.adaptive.ide.common.utils.NpmModuleFinder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -44,8 +45,8 @@ import java.util.List;
 public class NibbleComponent extends AbstractProjectComponent {
 
     public static final String COMPONENT_NAME = "Adaptive Nibble";
-    public static final String NIBBLE_MODULE_NAME = "npm-adaptiveme-nibble";
-    public static final String NIBBLE_MODULE_BINARY_LOCATION = "bin" + File.separator + "adaptive-nibble-emulator" + File.separator + "bin";
+    public static final String NIBBLE_MODULE_NAME = "adaptive-nibble-emulator";
+    public static final String NIBBLE_MODULE_BINARY_LOCATION = "bin";
     public static final String DEFAULT_INDEX_PATH = "src/index.html"; //This is used as a VirtualFile, so it needs to use "/"
 
     private static final String WACTHER_PARAM = "-w true";

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.adaptive.ide.plugins.nibble;
+package me.adaptive.ide.common.utils;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
