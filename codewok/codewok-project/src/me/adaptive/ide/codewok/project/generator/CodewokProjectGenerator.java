@@ -58,6 +58,7 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
   private boolean typescriptSupport;
   private GeneratorRunner.Boilerplate boilerplate;
   private boolean launchEmulator;
+  private GeneratorRunner.Platform[] platforms;
 
   @Nls
   @NotNull
@@ -116,7 +117,7 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
           progressIndicator.setIndeterminate(true);
           progressIndicator.setText("Creating the project files");
           progressIndicator.pushState();
-          GeneratorRunner runner = new GeneratorRunner(project.getName(), getAdaptiveVersion(), typescriptSupport, getBoilerplate());
+          GeneratorRunner runner = new GeneratorRunner(project.getName(), getAdaptiveVersion(), typescriptSupport, getBoilerplate(), platforms);
           runner.setSkipInstall(true);
           runner.setSkipServer(true);
           runner.generate(project, consoleView);
@@ -183,5 +184,13 @@ public class CodewokProjectGenerator implements DirectoryProjectGenerator {
 
   public void setLaunchEmulator(boolean launchEmulator) {
     this.launchEmulator = launchEmulator;
+  }
+
+  public GeneratorRunner.Platform[] getPlatforms() {
+    return platforms;
+  }
+
+  public void setPlatforms(GeneratorRunner.Platform[] platforms) {
+    this.platforms = platforms;
   }
 }

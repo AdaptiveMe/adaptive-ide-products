@@ -20,6 +20,7 @@ import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.project.Project;
 import me.adaptive.ide.codewok.SimpleCommandLineExecutor;
 import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,17 @@ public class GeneratorRunner extends SimpleCommandLineExecutor {
 
     AdaptiveVersion(String name) {
       this.name = name;
+    }
+  }
+
+  public enum Platform {
+    ANDROID,
+    IOS,
+    WINDOWS;
+
+    @Override
+    public String toString() {
+      return super.toString().toLowerCase();
     }
   }
 
@@ -76,6 +88,8 @@ public class GeneratorRunner extends SimpleCommandLineExecutor {
   public static final String SKIP_SERVER = "--skip-server";
   public static final String SKIP_CACHE = "--skip-cache";
 
+  public static final Platform[] DEFAULT_PLATFORMS = new Platform[]{Platform.ANDROID, Platform.IOS, Platform.WINDOWS};
+
   private String appName;
   private AdaptiveVersion adaptiveVersion;
   private boolean typescriptSupport;
@@ -83,6 +97,7 @@ public class GeneratorRunner extends SimpleCommandLineExecutor {
   private boolean skipInstall;
   private boolean skipServer;
   private boolean skipCache;
+  private Platform[] platforms;
 
 
   /**
@@ -92,12 +107,14 @@ public class GeneratorRunner extends SimpleCommandLineExecutor {
    * @param adaptiveVersion
    * @param typescriptSupport
    * @param boilerplate
+   * @param platforms
    */
-  public GeneratorRunner(String appName, AdaptiveVersion adaptiveVersion, boolean typescriptSupport, Boilerplate boilerplate) {
+  public GeneratorRunner(String appName, AdaptiveVersion adaptiveVersion, boolean typescriptSupport, Boilerplate boilerplate, Platform[] platforms) {
     this.appName = appName;
     this.adaptiveVersion = adaptiveVersion;
     this.typescriptSupport = typescriptSupport;
     this.boilerplate = boilerplate;
+    this.platforms = platforms;
   }
 
   /**
@@ -106,7 +123,7 @@ public class GeneratorRunner extends SimpleCommandLineExecutor {
    * @param appName
    */
   public GeneratorRunner(String appName) {
-    this(appName, AdaptiveVersion.LATEST, false, Boilerplate.NONE);
+    this(appName, AdaptiveVersion.LATEST, false, Boilerplate.NONE, DEFAULT_PLATFORMS);
   }
 
   public String getAppName() {
@@ -165,6 +182,14 @@ public class GeneratorRunner extends SimpleCommandLineExecutor {
     this.skipCache = skipCache;
   }
 
+  public Platform[] getPlatforms() {
+    return platforms;
+  }
+
+  public void setPlatforms(Platform[] platforms) {
+    this.platforms = platforms;
+  }
+
   private List<String> getParametersList() {
     List<String> paramList = new ArrayList<String>();
     paramList.add(GENERATOR_NAME);
@@ -172,6 +197,7 @@ public class GeneratorRunner extends SimpleCommandLineExecutor {
     paramList.add(getAdaptiveVersion().getName().toLowerCase());
     paramList.add(isTypescriptSupport().toString().toLowerCase());
     paramList.add(getBoilerplate().getName());
+    paramList.add(StringUtils.join(platforms, ","));
     if (skipInstall) {
       paramList.add(SKIP_INSTALL);
     }

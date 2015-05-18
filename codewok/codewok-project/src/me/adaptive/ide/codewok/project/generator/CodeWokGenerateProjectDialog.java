@@ -27,6 +27,8 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by panthro on 14/04/15.
@@ -41,6 +43,9 @@ public class CodeWokGenerateProjectDialog extends DialogWrapper {
     private JComboBox boilerPlateTemplateComboBox;
     private JCheckBox typescriptCheckbox;
     private JCheckBox launchEmulatorCheckbox;
+    private JCheckBox iosCheckBox;
+    private JCheckBox androidCheckBox;
+    private JCheckBox windowsCheckbox;
 
 
     public CodeWokGenerateProjectDialog(@Nullable Project project) {
@@ -155,5 +160,19 @@ public class CodeWokGenerateProjectDialog extends DialogWrapper {
 
     public boolean shouldLaunchEmulator() {
         return launchEmulatorCheckbox.isSelected();
+    }
+
+    public GeneratorRunner.Platform[] getSelectedPlatforms() {
+        List<GeneratorRunner.Platform> platforms = new ArrayList<GeneratorRunner.Platform>();
+        if (androidCheckBox.isSelected()) {
+            platforms.add(GeneratorRunner.Platform.ANDROID);
+        }
+        if (windowsCheckbox.isSelected()) {
+            platforms.add(GeneratorRunner.Platform.WINDOWS);
+        }
+        if (iosCheckBox.isSelected()) {
+            platforms.add(GeneratorRunner.Platform.IOS);
+        }
+        return platforms.toArray(new GeneratorRunner.Platform[platforms.size()]);
     }
 }
