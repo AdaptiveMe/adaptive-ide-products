@@ -1,3 +1,6 @@
 [submodule "adaptive-ide-base"]
 	path = adaptive-ide-base
 	url = https://github.com/AdaptiveMe/adaptive-ide-base
+[submodule "adaptive-tools-nibble"]
+	path = adaptive-tools-nibble
+	url = https://github.com/AdaptiveMe/adaptive-tools-nibble
