@@ -4,5 +4,6 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/adaptive-ide-base" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/adaptive-ide-base/intellij-community" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/common-plugins/adaptive-nibble-plugin/resources/adaptive-tools-nibble" vcs="Git" />
   </component>
 </project>
