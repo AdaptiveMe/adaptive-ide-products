@@ -52,6 +52,8 @@ public class ExecutableDetectorUtil {
     public static final String PATH_ENV = "PATH";
     public static final String WIN_APPDATA_ENV = "APPDATA";
     public static final String NPM_FOLDER_NAME = "npm";
+    public static final String ADAPTIVE_FOLDER = ".adaptive";
+    public static final String ADAPTIVE_FOLDER_LOCATION = System.getProperty("user.home");
 
     private String command;
 
@@ -69,6 +71,16 @@ public class ExecutableDetectorUtil {
 
     @NotNull
     private String detectForUnix() {
+        String exec = checkInAdaptiveFolder();
+        if (exec != null) {
+            return exec;
+        }
+
+        exec = checkInNpmModules();
+        if (exec != null) {
+            return exec;
+        }
+
         for (String p : UNIX_PATHS) {
             File f = new File(p, command);
             if (f.exists()) {
@@ -80,7 +92,13 @@ public class ExecutableDetectorUtil {
 
     @NotNull
     private String detectForWindows() {
-        String exec = checkInPath();
+
+        String exec = checkInAdaptiveFolder();
+        if (exec != null) {
+            return exec;
+        }
+
+        exec = checkInPath();
         if (exec != null) {
             return exec;
         }
@@ -104,6 +122,23 @@ public class ExecutableDetectorUtil {
         return checkSoleExecutable();
     }
 
+
+    private String checkInAdaptiveFolder() {
+        File adaptiveFolder = new File(ADAPTIVE_FOLDER_LOCATION, ADAPTIVE_FOLDER);
+        String exePath = null;
+        for (File subFolder : adaptiveFolder.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.isDirectory();
+            }
+        })) {
+            exePath = findCommandInDir(subFolder.getAbsolutePath());
+            if (exePath == null) {
+                exePath = findCommandInBinDir(subFolder.getAbsolutePath());
+            }
+        }
+        return exePath;
+    }
     /**
      * Looks into the %PATH% and checks command directories mentioned there.
      *
@@ -121,13 +156,18 @@ public class ExecutableDetectorUtil {
             if (found != null) {
                 return found;
             } else {
-                found = findCommandInDir(new File(pathEntry, "bin").getAbsolutePath());
+                found = findCommandInBinDir(pathEntry);
                 if (found != null) {
                     return found;
                 }
             }
         }
         return null;
+    }
+
+
+    private String findCommandInBinDir(String dir) {
+        return findCommandInDir(new File(dir, "bin").getAbsolutePath());
     }
 
     private String findCommandInDir(String dir) {
