@@ -31,7 +31,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.tools.Tool;
 import me.adaptive.ide.common.utils.ConsoleViewUtil;
 import me.adaptive.ide.common.utils.ExecutableDetectorUtil;
-import me.adaptive.ide.common.utils.NpmModuleFinder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -115,14 +114,8 @@ public class NibbleComponent extends AbstractProjectComponent {
     }
 
     protected String getNibbleExecutablePath(){
-        VirtualFile nibbleModuleRoot = NpmModuleFinder.findModuleInProject(myProject, NIBBLE_MODULE_NAME);
-        String exePath;
-        if (nibbleModuleRoot != null) {
-            exePath = new File(nibbleModuleRoot.getPath(), NIBBLE_MODULE_BINARY_LOCATION + File.separator + MODULE_NIBBLE_COMMAND).getAbsolutePath();
-        } else {
-            exePath = new ExecutableDetectorUtil(GLOBAL_NIBBLE_COMMAND).detect();
-        }
-        return exePath;
+        String nibblePath = new ExecutableDetectorUtil(MODULE_NIBBLE_COMMAND).detect();
+        return nibblePath != null ? nibblePath : new ExecutableDetectorUtil(GLOBAL_NIBBLE_COMMAND).detect();
     }
 
     /**
